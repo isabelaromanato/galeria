@@ -14,11 +14,19 @@ const imagens = [
 
 const criarItem = (urlmagem) => {
     const container = document.querySelector(".galeria-container")
-    container.innerHTML  += ` 
-    <a href= "${urlmagem}" class="galeria-itens">
-    <img src= "${urlmagem}" alt="">
-</a>
-    `
+
+    const novoLink = document.createElement("a")
+    novoLink.href = urlmagem 
+    novoLink.classList.add("galeria-itens")
+    novoLink.innerHTML = `<img src= "${urlmagem}" alt="">`
+
+    container.appendChild(novoLink)
+
+//     container.innerHTML  += ` 
+//     <a href= "${urlmagem}" class="galeria-itens">
+//     <img src= "${urlmagem}" alt="">
+// </a>
+ //não é correto//     `
 }
 const carregarImagens = () =>  imagens.forEach(criarItem)
 
