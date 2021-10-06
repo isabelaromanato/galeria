@@ -1,19 +1,53 @@
 "use strict"
 
-const imagens = [
-    "./img/imagem1.PNG",
-    "./img/imagem2.PNG",
-    "./img/imagem3.PNG",
-    "./img/imagem4.PNG",
-    "./img/imagem5.PNG",
-    "./img/imagem6.PNG",
-    "./img/imagem7.PNG",
-    "./img/imagem8.PNG"
+const limparElemento = (elemento) => {
+    while (elemento.firstChild){
+        elemento.removeChild(elemento.lastChild)
+    }
+}
 
-]
+const pegarImagens = (raca) => fetch(`https://dog.ceo/api/breed/${raca}/images`)
+
+const pesquisarImagens = async(evento) => {
+
+    if(evento.key === 'Enter') {
+
+    const raca = evento.target.value
+    const imagensResponse = await pegarImagens(raca)
+    const imagens = await imagensResponse.json()
+
+    limparElemento (document.querySelector(".galeria-container"))
+    limparElemento (document.querySelector(".slide-container"))
+
+    carregarGaleria(imagens.message)
+    carregarSlide(imagens.message)
+    }
+}
+
+pesquisarImagens()
+
+
+// {
+//     "url" : [
+//     "./img/imagem1.PNG",
+//     "./img/imagem2.PNG",
+//     "./img/imagem3.PNG",
+//     "./img/imagem4.PNG",
+//     "./img/imagem5.PNG",
+//     "./img/imagem6.PNG",
+//     "./img/imagem7.PNG",
+//     "./img/imagem8.PNG"
+
+// ]
+// }
 
 //replace -> substituir | split ->criar um array
-const limparId = (url) => url.replace("./img/", "").split(".")[0].replace(" ", "-")
+//substring inicio e fim da strig
+const limparId = (url) => {
+    const ultimaBarra = url.lastIndexOf("/") +1
+    const ultimoPonto = url.lastIndexOf(".")
+    return(url.substring(ultimaBarra,ultimoPonto).replace(" ", "-")) /*não necessario pois não tem espaço no nome da imagem*/
+}
 
 const criarItem = (urlmagem) => {
     const container = document.querySelector(".galeria-container")
@@ -57,10 +91,10 @@ const criarSlide = (urlImagem, indice, arr) => {
     container.appendChild(novoDiv)
 }
 
-const carregarSlide = (imagens) => imagens.forEach(criarSlide)
+const carregarSlide = (imgs) => imgs.forEach(criarSlide)
 
-carregarGaleria (imagens)
-carregarSlide(imagens)
+// carregarGaleria (imagens.url)
+// carregarSlide(imagens.url)
 
-
+document.querySelector(".pesquisa-container").addEventListener("keypress", pesquisarImagens)
 
