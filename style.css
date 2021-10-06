@@ -37,6 +37,12 @@ main {
 }
 
 .pesquisa-container input{
+    width: 80%;
+    height: 50%;
+    font-size: 2rem;
+    border: 0% 3% 0% 3%;
+    background-color: #e7baa4;
+    
     
 }
 
